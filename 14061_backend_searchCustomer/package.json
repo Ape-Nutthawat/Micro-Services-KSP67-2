@@ -8,7 +8,8 @@
     "local": "nodemon -r -L dotenv/config ./src/app.js dotenv_config_path=./.env.local",
     "dev": "node -r dotenv/config ./src/app.js dotenv_config_path=./.env.dev",
     "staging": "node -r dotenv/config ./src/app.js dotenv_config_path=./.env.staging",
-    "start": "node -r dotenv/config ./src/app.js dotenv_config_path=./.env.production"
+    "start": "node -r dotenv/config ./src/app.js dotenv_config_path=./.env.production",
+    "start:up": "docker build -t registry.thaijobjob.com/team-key/olr-ksp67_r2:14061_backend_searchCustomer . && docker push registry.thaijobjob.com/team-key/olr-ksp67_r2:14061_backend_searchCustomer"
   },
   "author": "",
   "license": "ISC",
