@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 // app.use(cors(config.app.domain.split(',')));
-app.use(cors({ origin: ['http://localhost:3001', 'http://localhost:3000', 'https://uat-ksp67.thaijobjob.com', 'https://ksp67.thaijobjob.com', 'https://adminksp67.thaijobjob.com'] }));
+app.use(cors({ origin: ['http://localhost:3001', 'http://localhost:3000', 'https://uat-ksp67-2.thaijobjob.com', 'https://ksp67-2.thaijobjob.com', 'https://adminksp67-2.thaijobjob.com'] }));
 
 app.use('/api/v2', routes);
 

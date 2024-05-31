@@ -41,8 +41,8 @@ export default class RequestService {
         } else {
           res.code = 1;
           res.message = 'ไม่ผ่าน';
-          // res.cause = request_score.FileRequestScoreRemark ? 'สำเนาเอกสารหลักฐานการยื่นขอรับบริการดูกระดาษคำตอบ ไม่ผ่าน <br>'  + ` เนื่องจาก ${request_score.FileRequestScoreRemark}` : '';
-          res.cause = 'เพราะ ไม่ดำเนินการตามข้อ 2.2 ของประกาศ เรื่อง การให้บริการดูกระดาษคำตอบฯ ประจำปี พ.ศ. 2566';
+          res.cause = request_score.FileRequestScoreRemark ? 'สำเนาเอกสารหลักฐานการยื่นขอรับบริการดูกระดาษคำตอบ ไม่ผ่าน <br>'  + ` เนื่องจาก ${request_score.FileRequestScoreRemark}` : '';
+          // res.cause = 'เพราะ ไม่ดำเนินการตามข้อ 2.2 ของประกาศ เรื่อง การให้บริการดูกระดาษคำตอบฯ ประจำปี พ.ศ. 2566';
           res.causeEN = 'Failed';
         }
         return res;
