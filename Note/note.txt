@@ -1,0 +1,44 @@
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13011_backend_news .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13011_backend_news
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13021_backend_register .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13021_backend_register
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13031_backend_s3 .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13031_backend_s3
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13041_backend_member .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13041_backend_member
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13061_backend_searchCustomer .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13061_backend_searchCustomer
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13062_backend_search .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13062_backend_search
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13063_backend_seat .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13063_backend_seat
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13071_backend_editCustomer .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13071_backend_editCustomer
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13081_backend_request .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13081_backend_request
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13082_backend_refund .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13082_backend_refund
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13091_backend_sendMail .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13091_backend_sendMail
+
+
+================================================================================================================================================================================================  
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13051_backend_qr_BAY .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13051_backend_qr_BAY
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13052_backend_teller .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13052_backend_teller
+
+docker build -t registry.thaijobjob.com/admin-irecruit/olr-ksp67:13053_backend_hook_BAY .
+docker push registry.thaijobjob.com/admin-irecruit/olr-ksp67:13053_backend_hook_BAY
