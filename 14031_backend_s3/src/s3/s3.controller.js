@@ -6,8 +6,8 @@ export const uploadImg = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   let FileImg = req.files.file;
@@ -34,8 +34,8 @@ export const uploadFileRequestCustomerID = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   let FileCustomerID = req.files.file;
@@ -100,8 +100,8 @@ export const uploadUpdateImg = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   let FileImg = req.files.file;
@@ -131,8 +131,8 @@ export const uploadFileUpdateCustomerID = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   let FileCustomerID = req.files.file;
@@ -159,8 +159,8 @@ export const uploadFileBookBank = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   let FileCustomerID = req.files.file;
@@ -187,8 +187,8 @@ export const uploadUpdateFileBookBank = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   const FileBookBank = req.files.file;
@@ -219,8 +219,8 @@ export const uploadFileRequestScore = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   const FileCustomerID = req.files.file;

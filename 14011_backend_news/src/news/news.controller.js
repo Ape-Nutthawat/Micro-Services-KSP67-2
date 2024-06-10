@@ -1,16 +1,19 @@
 import NewsService from './news.service.js';
 import ErrorLogRepository from '../error-log.repository.js';
 import { redis1 } from '../redis.js';
+import { generateToken } from "../authtoken.js";
 
 export const getAllNews = async (req, res, next) => {
   try {
     const news = await new NewsService().getNews();
-
+    const token = await generateToken();
     const resObj = {
       locations: news[0],
       news: news[1],
       popups: news[2],
+      token: token
     };
+    
 
     console.log('getAllNews success');
     res.status(200).send({
@@ -25,6 +28,7 @@ export const getAllNews = async (req, res, next) => {
     next(error);
   }
 };
+
 
 export const updateLocations = async (req, res, next) => {
   try {

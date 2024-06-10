@@ -15,8 +15,8 @@ export const checkSeat = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   const { RoundID, LocationID, CustomerID } = req.body;
@@ -33,8 +33,8 @@ export const checkSeat = async (req, res, next) => {
         status: 'success',
         code: 1,
         result: {},
-        message: 'ผู้สมัครโปรดทราบ',
-        cause: 'สนามสอบที่ท่านเลือกเต็มแล้ว',
+        message: 'ผู้สมัครโปรดทราบ <br> Attention',
+        cause: 'สนามสอบที่ท่านเลือกเต็มแล้ว <br> The exam field is full.',
       });
     }
     // console.log('update redis successfully');
@@ -66,8 +66,8 @@ export const checkSeat = async (req, res, next) => {
       status: 'failed',
       code: 0,
       result: resultUpdateSeat,
-      message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
-      cause: 'อัปเดทข้อมูลไม่สำเร็จ',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'อัปเดทข้อมูลไม่สำเร็จ <br> Update Failed',
     });
   } catch (error) {
     await redis1.decr(keyRedis);
@@ -113,8 +113,8 @@ export const reloadSeat = async (req, res, next) => {
       status: 'failed',
       code: 0,
       result,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'อัปเดทข้อมูลไม่สำเร็จ',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'อัปเดทข้อมูลไม่สำเร็จ <br> Update Failed',
     });
   } catch (error) {
     await new ErrorLogRepository().saveErrorLog(error, req);

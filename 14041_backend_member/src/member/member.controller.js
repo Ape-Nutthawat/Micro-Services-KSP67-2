@@ -14,8 +14,8 @@ export const getMember = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   const CustomerID = req.body.CustomerID;
@@ -38,16 +38,16 @@ export const getMember = async (req, res, next) => {
         status: 'failed',
         code: 0,
         result: {},
-        message: 'ผู้สมัครโปรดทราบ',
-        cause: 'เลขประจำตัวประชาชนของท่านถูกใช้ในการสมัครครั้งนี้แล้ว',
+        message: 'ผู้สมัครโปรดทราบ <br> Attention',
+        cause: 'เลขประจำตัวประชาชนของท่านถูกใช้ในการสมัครครั้งนี้แล้ว <br> Your ID Card Number Has Already Been Used For Registration.',
       });
     }
     res.status(200).send({
       status: 'success',
       code: 0,
       result: [],
-      message: 'ผู้สมัครโปรดทราบ',
-      cause: 'ไม่พบข้อมูลสมาชิกของท่าน',
+      message: 'ผู้สมัครโปรดทราบ <br> Attention',
+      cause: 'ไม่พบข้อมูลสมาชิกของท่าน <br> Can Not Found Your Member Information.',
     });
   } catch (error) {
     await new ErrorLogRepository().saveErrorLog(error, req);

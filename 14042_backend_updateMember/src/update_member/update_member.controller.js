@@ -9,110 +9,22 @@ import ErrorLogRepository from '../error-log.repository.js';
  */
 
 export const checkMember = async (req, res, next) => {
-  console.log('checkMember : ', req.body);
+  // console.log('checkMember : ', req.body);
   if (!req.body.CustomerID) {
-    console.log();
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   const CustomerID = req.body.CustomerID;
   try {
     const result = await new MemberService().checkMember(CustomerID);
     if (result !== false) {
-      console.log('Get Member Success');
-      return res.status(200).send({
-        status: 'success',
-        code: 1,
-        result: result,
-        message: '-',
-        cause: '-',
-      });
-    }
-    res.status(200).send({
-      status: 'success',
-      code: 0,
-      result: [],
-      message: 'ผู้สมัครโปรดทราบ',
-      cause: 'ไม่พบข้อมูลสมาชิกของท่าน',
-    });
-  } catch (error) {
-    await new ErrorLogRepository().saveErrorLog(error, req);
-    next(error);
-  }
-};
-
-export const updateMember = async (req, res, next) => {
-  console.log('updateMember : ', req.body);
-  if (!req.body.CustomerID) {
-    console.log();
-    return res.status(400).send({
-      status: 'failed',
-      code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
-    });
-  }
-  const body = req.body;
-  try {
-    const oldData = await new MemberService().checkMember(body.CustomerID);
-    if (oldData !== false) {
-      const log = await new MemberService().insertLogUpdateMember(body, oldData);
-      const update = await new MemberService().updateMember(body);
-      console.log('Update Member Success');
-      return res.status(200).send({
-        status: 'success',
-        code: 1,
-        message: '-',
-        cause: '-',
-      });
-    }
-    res.status(200).send({
-      status: 'success',
-      code: 0,
-      result: [],
-      message: 'ผู้สมัครโปรดทราบ',
-      cause: 'ไม่พบข้อมูลสมาชิกของท่าน',
-    });
-  } catch (error) {
-    await new ErrorLogRepository().saveErrorLog(error, req);
-    if (error.errno === 1062) {
-      console.log('CustomerID duplicate');
-      res.status(400).send({
-        status: 'error',
-        code: 1062,
-        result: {},
-        message: 'ผู้สมัครโปรดทราบ',
-        cause: 'เลขประจำตัวประชาชนของท่านมีการแก้ไขข้อมูลแล้ว',
-      });
-      return;
-    }
-    next(error);
-  }
-};
-
-export const getMember = async (req, res, next) => {
-  console.log('getMember : ', req.body);
-  if (!req.body.CustomerID) {
-    console.log();
-    return res.status(400).send({
-      status: 'failed',
-      code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
-    });
-  }
-  const CustomerID = req.body.CustomerID;
-  try {
-    const result = await new MemberService().checkMember(CustomerID);
-    if (result !== false) {
-      const checkCus = await new MemberService().checkCustomer(CustomerID);
-      // console.log(' 😎 ~ getMember ~ checkCus : ', checkCus);
-      if (checkCus !== false) {
-        console.log('Get Member Success');
+      const checkLog = await new MemberService().checkLog(CustomerID);
+      if (checkLog !== false) {
+        // console.log("Get Member Success");
         return res.status(200).send({
           status: 'success',
           code: 1,
@@ -121,23 +33,71 @@ export const getMember = async (req, res, next) => {
           cause: '-',
         });
       }
-      return res.status(400).send({
-        status: 'failed',
+      return res.status(200).send({
+        status: 'success',
         code: 0,
-        result: {},
-        message: 'ผู้สมัครโปรดทราบ',
-        cause: 'เลขประจำตัวประชาชนของท่านถูกใช้ในการสมัครครั้งนี้แล้ว',
+        result: result,
+        message: 'ผู้สมัครโปรดทราบ <br> Attention',
+        cause: 'เลขประจำตัวประชาชนของท่านมีการแก้ไขข้อมูลแล้ว <br> Your ID Card Number Has Been Edited.',
       });
     }
     res.status(200).send({
       status: 'success',
       code: 0,
       result: [],
-      message: 'ผู้สมัครโปรดทราบ',
-      cause: 'ไม่พบข้อมูลสมาชิกของท่าน',
+      message: 'ผู้สมัครโปรดทราบ <br> Attention',
+      cause: 'ไม่พบข้อมูลสมาชิกของท่าน <br> Can Not Found Your Member Information.',
     });
   } catch (error) {
     await new ErrorLogRepository().saveErrorLog(error, req);
+    next(error);
+  }
+};
+
+export const updateMember = async (req, res, next) => {
+  // console.log('updateMember : ', req.body);
+  if (!req.body.CustomerID) {
+    return res.status(400).send({
+      status: 'failed',
+      code: 0,
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
+    });
+  }
+  const body = req.body;
+  try {
+    const oldData = await new MemberService().checkMember(body.CustomerID);
+    if (oldData !== false) {
+      const log = await new MemberService().insertLogUpdateMember(body, oldData);
+      const update = await new MemberService().updateMember(body);
+      // console.log('Update Member Success');
+      return res.status(200).send({
+        status: 'success',
+        code: 1,
+        message: '-',
+        cause: '-',
+      });
+    }
+    res.status(200).send({
+      status: 'success',
+      code: 0,
+      result: [],
+      message: 'ผู้สมัครโปรดทราบ <br> Attention',
+      cause: 'ไม่พบข้อมูลสมาชิกของท่าน <br> Can Not Found Your Member Information.',
+    });
+  } catch (error) {
+    await new ErrorLogRepository().saveErrorLog(error, req);
+    if (error.errno === 1062) {
+      // console.log('CustomerID duplicate');
+      res.status(400).send({
+        status: 'error',
+        code: 1062,
+        result: {},
+        message: 'ผู้สมัครโปรดทราบ <br> Attention',
+        cause: 'เลขประจำตัวประชาชนของท่านมีการแก้ไขข้อมูลแล้ว <br> Your ID Card Number Has Been Edited.',
+      });
+      return;
+    }
     next(error);
   }
 };

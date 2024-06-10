@@ -26,8 +26,8 @@ export const request = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   const registerData = req.body.data;
@@ -39,8 +39,8 @@ export const request = async (req, res, next) => {
         status: "success",
         code: 0,
         result: {},
-        message: 'ท่านมีสิทธิ์สมัครสอบแล้ว',
-        cause: 'หากต้องการสมัครสอบ สามารถไปที่เมนู [สมัครสอบ]'
+        message: 'ท่านมีสิทธิ์สมัครสอบแล้ว <br> You Have The Right To Apply For The Exam.',
+        cause: 'หากต้องการสมัครสอบ สามารถไปที่เมนู [สมัครสอบ] <br><b>You have the right to apply for the exam.</b><br>If you want to apply for the exam, go to menu “Apply for the exam”'
       });
     } 
 
@@ -62,8 +62,8 @@ export const request = async (req, res, next) => {
         status: 'error',
         code: 1062,
         result: {},
-        message: 'ผู้สมัครโปรดทราบ',
-        cause: 'เลขประจำตัวประชาชนของท่านถูกใช้ในการยื่นคำร้องแล้ว',
+        message: 'ผู้สมัครโปรดทราบ <br> Attention',
+        cause: 'เลขประจำตัวประชาชนของท่านถูกใช้ในการยื่นคำร้องแล้ว <br> Your ID Card Number Has Been Used To Submit Your Request.',
       });
       return;
     }

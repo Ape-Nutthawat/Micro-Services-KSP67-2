@@ -7,5 +7,6 @@ const router = Router();
 
 // router.post('/member', validateToken, checkTimeOpen, checkTimeEnd, MemberController.updateMember);
 router.post('/', validateToken, MemberController.updateMember);
+router.post('/login', validateToken, MemberController.checkMember);
 
 export default router;

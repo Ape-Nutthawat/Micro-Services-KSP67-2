@@ -7,8 +7,8 @@ export const searchB = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   const CustomerID = req.body.CustomerID;
@@ -31,8 +31,8 @@ export const searchB = async (req, res, next) => {
       status: 'success',
       code: 0,
       result: {},
-      message: 'ผู้สมัครโปรดทราบ',
-      cause: 'ระบบไม่พบข้อมูลของท่าน',
+      message: 'ผู้สมัครโปรดทราบ <br> Attention',
+      cause: 'ระบบไม่พบข้อมูลของท่าน <br> Can Not Found Your Information.',
     });
   } catch (error) {
     await new ErrorLogRepository().saveErrorLog(error, req);
@@ -46,8 +46,8 @@ export const searchBirthday = async (req, res, next) => {
     return res.status(400).send({
       status: 'failed',
       code: 0,
-      message: 'เกิดข้อผิดพลาด',
-      cause: 'รูปแบบข้อมูลไม่ถูกต้อง',
+      message: 'เกิดข้อผิดพลาด <br> Warning',
+      cause: 'รูปแบบข้อมูลไม่ถูกต้อง <br> Invalid Data Format.',
     });
   }
   const CustomerID = req.body.CustomerID;
@@ -70,8 +70,8 @@ export const searchBirthday = async (req, res, next) => {
       status: 'success',
       code: 0,
       result: {},
-      message: 'ผู้สมัครโปรดทราบ',
-      cause: 'ระบบไม่พบข้อมูลของท่าน',
+      message: 'ผู้สมัครโปรดทราบ <br> Attention',
+      cause: 'ระบบไม่พบข้อมูลของท่าน <br> Can Not Found Your Information.',
     });
   } catch (error) {
     await new ErrorLogRepository().saveErrorLog(error, req);

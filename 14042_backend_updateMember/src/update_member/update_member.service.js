@@ -8,14 +8,36 @@ export default class MemberService {
 
   async checkMember(CustomerID) {
     const sqlCheckMember = `SELECT CustomerID, BirthDMY, Name1, Name2, Name3, Name1EN, Name2EN, NameMidEN, Name3EN, TelMobile, Email FROM member WHERE CustomerID = ? LIMIT 1`;
-    const [[member]] = await pool.query(sqlCheckMember, CustomerID);
+    const [member] = await pool.query(sqlCheckMember, CustomerID);
     if (member.length === 0) {
       return false;
     }
     return member;
   }
 
+  async checkLog(CustomerID) {
+    const sqlCheckLog = `SELECT ID FROM update_member_log WHERE CustomerID = ? LIMIT 1`;
+    const [customer] = await pool.query(sqlCheckLog, CustomerID);
+    if (customer.length === 0) {
+      return true;
+    }
+    return false;
+  }
+
   async insertLogUpdateMember(body, oldData) {
+    const newData = {
+      BirthDMY: oldData[0].BirthDMY === body.BirthDMY ? '-' : body.BirthDMY,
+      Name1: oldData[0].Name1 === body.Name1 ? '-' : body.Name1,
+      Name2: oldData[0].Name2 === body.Name2 ? '-' : body.Name2,
+      Name3: oldData[0].Name3 === body.Name3 ? '-' : body.Name3,
+      Name1EN: oldData[0].Name1EN === body.Name1EN ? '-' : body.Name1EN,
+      Name2EN: oldData[0].Name2EN === body.Name2EN ? '-' : body.Name2EN,
+      NameMidEN: oldData[0].NameMidEN === body.NameMidEN ? '-' : body.NameMidEN,
+      Name3EN: oldData[0].Name3EN === body.Name3EN ? '-' : body.Name3EN,
+      TelMobile: oldData[0].Name3EN === body.Name3EN ? '-' : body.Name3EN,
+      Email: oldData[0].Name3EN === body.Name3EN ? '-' : body.Name3EN,
+    };
+
     const sqlInsertLogUpdateMember = `INSERT INTO update_member_log SET 
     CustomerID = ?,
     BirthDMYOld = ?,
@@ -38,28 +60,29 @@ export default class MemberService {
     TelMobileNew = ?,
     EmailOld = ?,
     EmailNew = ?`;
+
     const [updateMember] = await pool.query(sqlInsertLogUpdateMember, [
       body.CustomerID,
-      oldData.BirthDMY,
-      body.BirthDMY,
-      oldData.Name1,
-      body.Name1,
-      oldData.Name2,
-      body.Name2,
-      oldData.Name3,
-      body.Name3,
-      oldData.Name1EN,
-      body.Name1EN,
-      oldData.Name2EN,
-      body.Name2EN,
-      oldData.NameMidEN,
-      body.NameMidEN,
-      oldData.Name3EN,
-      body.Name3EN,
-      oldData.TelMobile,
-      body.TelMobile,
-      oldData.Email,
-      body.Email,
+      oldData[0].BirthDMY,
+      newData.BirthDMY,
+      oldData[0].Name1,
+      newData.Name1,
+      oldData[0].Name2,
+      newData.Name2,
+      oldData[0].Name3,
+      newData.Name3,
+      oldData[0].Name1EN,
+      newData.Name1EN,
+      oldData[0].Name2EN,
+      newData.Name2EN,
+      oldData[0].NameMidEN,
+      newData.NameMidEN,
+      oldData[0].Name3EN,
+      newData.Name3EN,
+      oldData[0].TelMobile,
+      newData.TelMobile,
+      oldData[0].Email,
+      newData.Email,
     ]);
     return updateMember;
   }
@@ -92,14 +115,5 @@ export default class MemberService {
       body.CustomerID
     ]);
     return result
-  }
-
-  async checkCustomer(CustomerID) {
-    const sqlCheckCustomer = `SELECT ID FROM customer WHERE CustomerID = ? LIMIT 1`;
-    const [customer] = await pool.query(sqlCheckCustomer, CustomerID);
-    if (customer.length === 0) {
-      return true;
-    }
-    return false;
   }
 }

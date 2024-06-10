@@ -11,9 +11,9 @@ const verifyToken = (token) => {
   }
 };
 
-export const generateToken = (payload) => {
-  return jwt.sign(payload, config.app.jwtKey, {
-    expiresIn: '8h',
+export const generateToken = async () => {
+  return jwt.sign({}, config.app.jwtKey, {
+    expiresIn: '2h',
   });
 };
 
@@ -30,7 +30,7 @@ export const validateToken = (req, res, next) => {
     const payload = verifyToken(authToken);
 
     if (!payload || authSchema != 'Bearer') {
-      throw new Error('Unaothorized');
+      throw new Error('Unauthorized');
     }
 
     req.user = payload;
