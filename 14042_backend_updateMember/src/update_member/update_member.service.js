@@ -1,7 +1,7 @@
 import mariadb from 'mariadb';
 import { pool } from '../database.js';
 
-export default class MemberService {
+export default class UpdateMemberService {
   /**
    * @type { import('mariadb').Pool }
    */
@@ -34,9 +34,10 @@ export default class MemberService {
       Name2EN: oldData[0].Name2EN === body.Name2EN ? '-' : body.Name2EN,
       NameMidEN: oldData[0].NameMidEN === body.NameMidEN ? '-' : body.NameMidEN,
       Name3EN: oldData[0].Name3EN === body.Name3EN ? '-' : body.Name3EN,
-      TelMobile: oldData[0].Name3EN === body.Name3EN ? '-' : body.Name3EN,
-      Email: oldData[0].Name3EN === body.Name3EN ? '-' : body.Name3EN,
+      TelMobile: oldData[0].TelMobile === body.TelMobile ? '-' : body.TelMobile,
+      Email: oldData[0].Email === body.Email ? '-' : body.Email,
     };
+
 
     const sqlInsertLogUpdateMember = `INSERT INTO update_member_log SET 
     CustomerID = ?,

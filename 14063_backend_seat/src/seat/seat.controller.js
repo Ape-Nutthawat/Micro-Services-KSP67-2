@@ -29,9 +29,9 @@ export const checkSeat = async (req, res, next) => {
 
     if (seatCount >= resultLocation.SeatMax) {
       await redis1.set(keySeatCount, resultLocation.SeatMax);
-      return res.status(400).send({
+      return res.status(200).send({
         status: 'success',
-        code: 1,
+        code: 0,
         result: {},
         message: 'ผู้สมัครโปรดทราบ <br> Attention',
         cause: 'สนามสอบที่ท่านเลือกเต็มแล้ว <br> The exam field is full.',

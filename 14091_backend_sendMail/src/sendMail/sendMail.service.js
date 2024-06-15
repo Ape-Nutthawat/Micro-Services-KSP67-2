@@ -29,7 +29,7 @@ export default class SendMailService {
       var mailOptions = {
         from: `online@inet.co.th`,
         to: receiver,
-        subject: 'สำนักงานเลขาธิการคุรุสภาได้รับข้อมูลการกรอกใบสมัครสอบวิชาครูครั้งที่ 1/2567 ของท่านแล้ว',
+        subject: 'สำนักงานเลขาธิการคุรุสภาได้รับข้อมูลการกรอกใบสมัครสอบวิชาครูครั้งที่ 2/2567 ของท่านแล้ว',
         html: Template(),
       };
 
@@ -68,7 +68,7 @@ export default class SendMailService {
         var mailOptions = {
           from: `online@inet.co.th`,
           to: receiver[i],
-          subject: 'สำนักงานเลขาธิการคุรุสภาได้รับข้อมูลยืนยันการชำระเงินค่าสมัครสอบวิชาครูครั้งที่ 1/2567 ของท่าน จากธนาคารแล้ว',
+          subject: 'สำนักงานเลขาธิการคุรุสภาได้รับข้อมูลยืนยันการชำระเงินค่าสมัครสอบวิชาครูครั้งที่ 2/2567 ของท่าน จากธนาคารแล้ว',
           html: TemplatePayment(),
         };
         // console.log(mailOptions.to);
