@@ -9,7 +9,7 @@ const checkTimeOpen = (req, res, next) => {
       code: 2,
       result: {},
       message: 'ผู้สมัครโปรดทราบ <br> Attention',
-      cause: 'ระบบยื่นคำร้องขอตรวจสบสิทธิยังไม่เปิด <br> The system is not available',
+      cause: 'ระบบยื่นคำร้องขอตรวจสอบสิทธิยังไม่เปิด <br> The system is not available',
     });
     return;
   }
@@ -28,7 +28,7 @@ const checkTimeEnd = (req, res, next) => {
       code: 2,
       result: {},
       message: 'ผู้สมัครโปรดทราบ <br> Attention',
-      cause: 'ระบบยื่นคำร้องขอตรวจสบสิทธิปิดแล้ว <br> The system is not available',
+      cause: 'ระบบยื่นคำร้องขอตรวจสอบสิทธิปิดแล้ว <br> The system is not available',
     });
     return;
   }
