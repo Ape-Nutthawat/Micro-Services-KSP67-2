@@ -48,8 +48,8 @@ export default class RequestRegisteredService {
     res.result = member;
     res.code = 0;
     res.message = 'ท่านมีสิทธิสมัครสอบแล้ว';
-    res.cause = 'หากต้องการสมัครสอบ สามารถไปที่เมนู [สมัครสอบ]';
-    res.causeEN = '<b>You have the right to apply for the exam.</b><br>If you want to apply for the exam, go to menu “Apply for the exam”';
+    res.cause = '';
+    res.causeEN = 'You have the right to apply for the exam.';
     return res;
   }
 
