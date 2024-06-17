@@ -29,7 +29,7 @@ export default class RequestRegisteredService {
         if (statusApprove === 1) {
           res.message = 'ผ่าน';
           res.causeEN = 'Pass';
-          res.cause = 'ท่านสามารถยื่นคำร้องขอตรวจสอบสิทธิได้';
+          res.cause = 'ท่านสามารถยื่นคำร้องขอทบทวนสิทธิได้';
         } else {
           res.message = statusApprove === 2 ? 'รอตรวจสอบ' : statusApprove === 3 ? 'ท่านไม่มีสิทธิสมัครสอบ' : 'ไม่ผ่าน';
           res.cause = statusApprove === 2 ? '-' : 'เนื่องจาก ' + (!request.RemarkRequest || request.RemarkRequest === null || request.RemarkRequest === '' ? '-' : request.RemarkRequest);
@@ -39,7 +39,7 @@ export default class RequestRegisteredService {
       }
       // กรณีไม่เคยยื่นขอตรวจ
       res.message = 'ท่านไม่มีสิทธิสมัครสอบ';
-      res.cause = 'หากท่านต้องการสมัครสอบ สามารถยื่นคำร้องขอตรวจสอบสิทธิ';
+      res.cause = '- หากท่านเคยสมัครเข้ารับการทดสอบ ให้คลิกที่ปุ่ม “ขอทบทวนสิทธิ“ <br> - หากท่านสมัครสอบเป็นครั้งแรกให้ติดต่อกับสถาบันอุดมศึกษาของตนเอง';
       res.causeEN = '<b>You are not eligible to apply for the exam.</b><br>If you want to apply for the exam, please request the right for applying the exam.';
 
       return res;
