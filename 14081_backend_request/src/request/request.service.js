@@ -27,6 +27,7 @@ export default class RrequestService {
         const statusApprove = request.StatusApprove;
         if (statusApprove === 1) {
           res.message = 'ผ่าน';
+          res.causeEN = 'Pass';
           res.cause = 'ท่านสามารถยื่นคำร้องขอสิทธิในการสมัครสอบได้';
         } else {
           res.message = statusApprove === 2 ? 'รอตรวจสอบ' : statusApprove === 3 ? 'ท่านไม่มีสิทธิสมัครสอบ' : 'ไม่ผ่าน';
