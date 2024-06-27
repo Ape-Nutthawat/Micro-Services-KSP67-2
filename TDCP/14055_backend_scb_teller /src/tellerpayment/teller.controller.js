@@ -4,28 +4,28 @@ import config from '../config.js';
 import ErrorLogRepository from '../error-log.repository.js';
 
 export const addTeller = async (req, res) => {
-  
+
   try {
     const today = new Date();
     today.setDate(today.getDate() - 1);
     const yesterday = `${today.getFullYear()}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
 
     
-    // const body = {
-    //   Key: config.tdcpKey,
-    //   Status: 'Success',
-    //   StartDate: "20240528",
-    //   EndDate: "20240628",
-    // };
-
     const body = {
       Key: config.tdcpKey,
       Status: 'Success',
-      StartDate: yesterday,
-      EndDate: yesterday,
+      StartDate: "20240628",
+      EndDate: "20240628",
     };
 
-    const results = await axios.post('https://new-portal-payment.one.th/INETServiceWeb/api/v1/inquiry', body);
+    // const body = {
+    //   Key: config.tdcpKey,
+    //   Status: 'Success',
+    //   StartDate: yesterday,
+    //   EndDate: yesterday,
+    // };
+
+    const results = await axios.post('https://new-ops.inet.co.th/portal/api/v1/inquiry', body);
     console.log(" 😎 ~ addTeller ~ dataTeller : ", results.data.length)
     if (results.data?.status !== 'fail') {
       let dataTeller = results.data;

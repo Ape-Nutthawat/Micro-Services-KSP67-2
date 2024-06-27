@@ -91,7 +91,7 @@ export const checkUpdate = async (req, res, next) => {
       result: {},
       message: 'ผู้สมัครโปรดทราบ <br> Attention',
       cause:
-        'ระบบไม่พบข้อมูลของท่าน กรุณาศึกษาประกาศสำนักงานฯ ข้อ 12.2 (1) <br><br> Please read the Notification of the Secretariat Office of the Teachers ‘Council of Thailand (KHURUSAPHA), clause 12.2 (1)',
+        'ระบบไม่พบข้อมูลของท่าน กรุณาศึกษาประกาศสำนักงานฯ <br><br> Please read the Notification of the Secretariat Office of the Teachers ‘Council of Thailand (KHURUSAPHA)',
     });
   } catch (error) {
     await new ErrorLogRepository().saveErrorLog(error, req);

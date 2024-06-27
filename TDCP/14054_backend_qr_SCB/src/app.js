@@ -12,7 +12,7 @@ const { port, env } = config.app;
 
 app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ extended: true, limit: '20mb' }));
-app.use(cors({ origin: ['http://localhost:3001', 'https://uat-ksp67-2.thaijobjob.com', 'https://ksp67-2.thaijobjob.com', 'https://ksp67-2.one.th'] }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://uat-ksp67-2.thaijobjob.com', 'https://ksp67-2.thaijobjob.com', 'https://ksp67-2.one.th'] }));
 
 const insertLogGenQr = async (cusId, data) => {
   const setRedis = await redis4

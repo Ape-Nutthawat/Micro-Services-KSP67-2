@@ -10,6 +10,7 @@ export default class SearchCustomerService {
                           Round,
                           LocationID,
                           Location,
+                          TestLang,
                           CustomerID,
                           Name1,
                           Name2,

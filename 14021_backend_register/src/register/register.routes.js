@@ -5,7 +5,7 @@ import { validateToken } from "../authtoken.js";
 
 const router = Router();
 
-// router.post('/customer', validateToken, checkTimeOpen, checkTimeEnd, RegisterController.createCustomer);
-router.post('/customer', validateToken, RegisterController.createCustomer);
+router.post('/customer', validateToken, checkTimeOpen, checkTimeEnd, RegisterController.createCustomer);
+// router.post('/customer', validateToken, RegisterController.createCustomer);
 
 export default router;

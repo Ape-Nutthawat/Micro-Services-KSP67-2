@@ -15,7 +15,7 @@ export const getAllNews = async (req, res, next) => {
     };
     
 
-    console.log('getAllNews success');
+    // console.log('getAllNews success');
     res.status(200).send({
       status: 'success',
       code: 1,

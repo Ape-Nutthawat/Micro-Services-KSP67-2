@@ -53,7 +53,7 @@ export default class RegisterService {
       registerData.Gender,
       registerData.Name1EN.trim(),
       registerData.Name2EN.trim(),
-      registerData.NameMidEN.trim(),
+      registerData.NameMidEN == null ? null : registerData.NameMidEN.trim(),
       registerData.Name3EN.trim(),
       registerData.BirthDMY,
       registerData.Degree,
