@@ -1,8 +1,11 @@
 import { Router } from 'express';
 import * as SeatController from './seat.controller.js';
+import { checkTimeOpen, checkTimeEnd } from './seat.middleware.js';
 import { validateToken } from '../authtoken.js';
 
 const router = Router();
+
+// router.post('/checkSeat', validateToken, checkTimeOpen, checkTimeEnd, SeatController.checkSeat);
 
 router.post('/checkSeat', validateToken, SeatController.checkSeat);
 

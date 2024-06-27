@@ -24,10 +24,7 @@ const insertLogGenQr = async (cusId, data) => {
   return setRedis;
 };
 
-// const uatKey = 'owb37oRQdRWrsh4moARw8AXcK7p8NicdZcJjUjXI';
-// const prdKey = 'dedoCuyfpgkTavwDirHmyS4FmXEZgBYQPNPTnjMk';
-
-app.post('/api/v2/pay/qr/', validateToken, async (req, res, next) => {
+app.post('/api/v2/pay/qr/uat', validateToken, async (req, res, next) => {
   const orderId = req.body.RefNo1;
   const amount = req.body.Amount;
   const desc = req.body.OrderDesc;
@@ -42,6 +39,7 @@ app.post('/api/v2/pay/qr/', validateToken, async (req, res, next) => {
     });
   }
 
+  // console.log(parseInt(amount));
   if (parseInt(amount) != 545 && parseInt(amount) != 1045) {
     return res.status(400).send({
       status: 'fail',
@@ -49,20 +47,9 @@ app.post('/api/v2/pay/qr/', validateToken, async (req, res, next) => {
     });
   }
 
-  const body = {
-    key: config.tdcpKeyPrd,
-    orderId,
-    orderDesc: desc,
-    amount,
-    apUrl: 'http://www.irecruit.co.th/',
-    lang: 'T',
-    bankNo: 'BAY',
-    currCode: '764',
-    payType: 'QR',
-  };
-
   try {
     const keyExists = await redis4.exists(cusId);
+    // console.log(' 😎 ~ genQr ~ keyExists : ', keyExists);
     if (keyExists) {
       const data = await redis4.get(cusId);
       const result = JSON.parse(data);
@@ -79,15 +66,43 @@ app.post('/api/v2/pay/qr/', validateToken, async (req, res, next) => {
       DateTime: new Date(),
     };
 
-    const thaiDotComRes = await axios.post(config.tdcpUrlPrd, body);
-    // const url = thaiDotComRes.data.link;
-    const link = "https://new-portal-payment.one.th/INETServiceWeb/api/v1/bay/gen_qrcode"
-    const { token, ref1, ref2 } = thaiDotComRes.data;
-    const results = await axios.post(link, {
-      access_token: token,
+    // const payload = {
+    //   orderId,
+    //   key: config.tdcpScbKey,
+    // };
+
+    const oauthToken = await axios.post(config.tdcp.uat.tdcpOauthUrl, {
+      orderId,
+      key: config.tdcp.uat.tdcpScbKey,
     });
-    const qr = results.data.qrcode;
-    
+
+    const token = oauthToken.data.data.token;
+    // if (oauthToken.data.code === 201) {
+
+    const body = {
+      key: config.tdcp.uat.tdcpScbKey,
+      orderId,
+      orderDesc: desc,
+      amount,
+      apUrl: 'http://www.irecruit.co.th/',
+      lang: 'T',
+      bankNo: 'SCB',
+      currCode: '764',
+      payType: 'QR',
+    };
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
+
+    const thaiNewSCB = await axios.post(config.tdcp.uat.tdcpUrlScb, body, { headers });
+
+    const { accessToken, link, ref1, ref2 } = thaiNewSCB.data.data;
+
+    const results = await axios.post(link, { accessToken: accessToken });
+    const qr = results.data.data.qrCode;
+
     await insertLogGenQr(cusId, data);
 
     const getRedis = await redis4.get(cusId);
@@ -108,11 +123,11 @@ app.post('/api/v2/pay/qr/', validateToken, async (req, res, next) => {
       message: '-',
       cause: '-',
     });
+    // }
   } catch (error) {
     await new ErrorLogRepository().saveErrorLog(error, req);
     if (axios.isAxiosError(error)) {
       console.log('tdcp error', {
-        body,
         response: error.response,
         data: error.config,
       });
@@ -121,7 +136,8 @@ app.post('/api/v2/pay/qr/', validateToken, async (req, res, next) => {
   }
 });
 
-app.post('/api/v2/pay/qr/uat', validateToken, async (req, res, next) => {
+
+app.post('/api/v2/pay/qr', validateToken, async (req, res, next) => {
   const orderId = req.body.RefNo1;
   const amount = req.body.Amount;
   const desc = req.body.OrderDesc;
@@ -129,20 +145,24 @@ app.post('/api/v2/pay/qr/uat', validateToken, async (req, res, next) => {
   const LID = desc.split('_')[1];
   const cusId = desc.split('_')[2];
 
-  const body = {
-    key: config.tdcpKeyUat,
-    orderId,
-    orderDesc: desc,
-    amount,
-    apUrl: 'http://www.irecruit.co.th/',
-    lang: 'T',
-    bankNo: 'BAY',
-    currCode: '764',
-    payType: 'QR',
-  };
+  if (cusId.length !== 13) {
+    return res.status(400).send({
+      status: 'fail',
+      message: 'เกิดข้อผิดพลาด',
+    });
+  }
+
+  // console.log(parseInt(amount));
+  if (parseInt(amount) != 545 && parseInt(amount) != 1045) {
+    return res.status(400).send({
+      status: 'fail',
+      message: 'ราคาไม่ถูกต้อง',
+    });
+  }
 
   try {
     const keyExists = await redis4.exists(cusId);
+    // console.log(' 😎 ~ genQr ~ keyExists : ', keyExists);
     if (keyExists) {
       const data = await redis4.get(cusId);
       const result = JSON.parse(data);
@@ -159,13 +179,42 @@ app.post('/api/v2/pay/qr/uat', validateToken, async (req, res, next) => {
       DateTime: new Date(),
     };
 
-    const thaiDotComRes = await axios.post(config.tdcpUrlTest, body);
-    const url = thaiDotComRes.data.link;
-    const { token, ref1, ref2 } = thaiDotComRes.data;
-    const results = await axios.post(url, {
-      access_token: token,
+    // const payload = {
+    //   orderId,
+    //   key: config.tdcpScbKey,
+    // };
+
+    const oauthToken = await axios.post(config.tdcp.prd.tdcpOauthUrl, {
+      orderId,
+      key: config.tdcp.prd.tdcpScbKey,
     });
-    const qr = results.data.qrcode;
+
+    const token = oauthToken.data.data.token;
+    // if (oauthToken.data.code === 201) {
+
+    const body = {
+      key: config.tdcp.prd.tdcpScbKey,
+      orderId,
+      orderDesc: desc,
+      amount,
+      apUrl: 'http://www.irecruit.co.th/',
+      lang: 'T',
+      bankNo: 'SCB',
+      currCode: '764',
+      payType: 'QR',
+    };
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    };
+
+    const thaiNewSCB = await axios.post(config.tdcp.prd.tdcpUrlScb, body, { headers });
+
+    const { accessToken, link, ref1, ref2 } = thaiNewSCB.data.data;
+
+    const results = await axios.post(link, { accessToken: accessToken });
+    const qr = results.data.data.qrCode;
 
     await insertLogGenQr(cusId, data);
 
@@ -187,29 +236,17 @@ app.post('/api/v2/pay/qr/uat', validateToken, async (req, res, next) => {
       message: '-',
       cause: '-',
     });
+    // }
   } catch (error) {
     await new ErrorLogRepository().saveErrorLog(error, req);
     if (axios.isAxiosError(error)) {
       console.log('tdcp error', {
-        body,
         response: error.response,
         data: error.config,
       });
     }
     next(error);
   }
-});
-
-app.use((err, req, res, next) => {
-  console.log({
-    url: req.originalUrl,
-    body: req.body,
-    err,
-  });
-  res.status(500).send({
-    status: 'fail',
-    message: 'เกิดข้อผิดพลาด',
-  });
 });
 
 app.listen(port, () => {

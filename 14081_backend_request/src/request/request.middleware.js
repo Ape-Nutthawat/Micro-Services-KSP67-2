@@ -2,15 +2,15 @@
 const checkTimeOpen = (req, res, next) => {
   const now = new Date();
 
-  const registerOpenDate = new Date(2024, 0, 22, 8, 30, 0); //วันเปิดรับสมัคร
+  const registerOpenDate = new Date(2024, 5, 29, 8, 30, 0); //วันเปิดรับสมัคร
 
   if (now < registerOpenDate) {
     res.status(200).send({
       status: 'error',
       code: 2,
       result: {},
-      message: 'ไม่สามารถใช้งานระบบได้',
-      cause: 'ระบบยังไม่เปิดให้ยื่นคำร้อง',
+      message: 'ผู้สมัครโปรดทราบ <br> Attention',
+      cause: 'ระบบยื่นคำร้องขอสิทธิสมัครยังไม่เปิด <br> The system is not available'
     });
     return;
   }
@@ -21,15 +21,15 @@ const checkTimeOpen = (req, res, next) => {
 const checkTimeEnd = (req, res, next) => {
   const now = new Date();
 
-  const registerEndDate = new Date(2024, 0, 26, 16, 30, 0); //วันปิดรับสมัคร
+  const registerEndDate = new Date(2024, 6, 3, 16, 0, 0); //วันปิดรับสมัคร
 
   if (now > registerEndDate) {
     res.status(200).send({
       status: 'error',
       code: 2,
       result: {},
-      message: 'ไม่สามารถใช้งานระบบได้',
-      cause: 'ระบบยื่นคำร้องปิดแล้ว',
+      message: 'ผู้สมัครโปรดทราบ <br> Attention',
+      cause: 'ระบบยื่นคำร้องขอสิทธิสมัครปิดแล้ว <br> The system is not available'
     });
     return;
   }
