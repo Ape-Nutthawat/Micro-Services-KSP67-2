@@ -9,9 +9,9 @@ router.put('/customer', validateToken, checkTimeOpen, checkTimeEnd, UpdateContro
 
 router.post('/login', validateToken, checkTimeOpen, checkTimeEnd, UpdateController.checkUpdate);
 
-router.post('/nationality/login', validateToken ,checkTimeOpen, checkTimeEnd, UpdateController.checkNationality);
+// router.post('/nationality/login', validateToken ,checkTimeOpen, checkTimeEnd, UpdateController.checkNationality);
 
-router.post('/nationality', validateToken ,checkTimeOpen, checkTimeEnd, UpdateController.updateNationality);
+// router.post('/nationality', validateToken ,checkTimeOpen, checkTimeEnd, UpdateController.updateNationality);
 
 // router.put('/customer', validateToken, UpdateController.updateCustomer);
 

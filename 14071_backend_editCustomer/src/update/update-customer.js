@@ -13,8 +13,8 @@ export default class UpdateCustomer {
   }
 
   async #insertLog() {
-    const sqlSelect = `SELECT CustomerID, BirthDMY, Name1, Name2, Name3, Name1EN, Name2EN, NameMidEN, Name3EN FROM customer WHERE CustomerID = ? AND BirthDMY = ?`;
-    const [[oldDataCustomer]] = await this.#transaction.query(sqlSelect, [this.#customerData.CustomerID, this.#customerData.BirthDMY]);
+    const sqlSelect = `SELECT CustomerID, BirthDMY, Name1, Name2, Name3, Name1EN, Name2EN, NameMidEN, Name3EN, TelMobile, Email FROM customer WHERE CustomerID = ?`;
+    const [[oldDataCustomer]] = await this.#transaction.query(sqlSelect, [this.#customerData.CustomerID]);
 
     const newDataDefaults = {
       BirthDMY: oldDataCustomer.BirthDMY === this.#customerData.BirthDMY ? '-' : this.#customerData.BirthDMY,
@@ -25,10 +25,11 @@ export default class UpdateCustomer {
       Name2EN: oldDataCustomer.Name2EN === this.#customerData.Name2EN ? '-' : this.#customerData.Name2EN,
       NameMidEN: oldDataCustomer.NameMidEN === this.#customerData.NameMidEN ? '-' : this.#customerData.NameMidEN,
       Name3EN: oldDataCustomer.Name3EN === this.#customerData.Name3EN ? '-' : this.#customerData.Name3EN,
+      TelMobile: oldDataCustomer.TelMobile === this.#customerData.TelMobile.replaceAll("-", "") ? '-' : this.#customerData.TelMobile.replaceAll("-", ""),
+      Email: oldDataCustomer.Email === this.#customerData.Email ? '-' : this.#customerData.Email,
     };
 
     const newData = { ...oldDataCustomer, ...newDataDefaults };
-    console.log(newData);
 
     const sql = `INSERT INTO update_customer_log SET 
         CustomerID = ?,
@@ -48,6 +49,10 @@ export default class UpdateCustomer {
         NameMidENNew = ?,
         Name3ENOld = ?,
         Name3ENNew = ?,
+        TelMobileOld = ?,
+        TelMobileNew = ?,
+        EmailOld = ?,
+        EmailNew = ?,
         isFileImg = ?,
         FileImg = ?,
         FileCustomerID = ?`;
@@ -73,6 +78,10 @@ export default class UpdateCustomer {
       newData.NameMidEN,
       oldDataCustomer.Name3EN,
       newData.Name3EN,
+      oldDataCustomer.TelMobile,
+      newData.TelMobile,
+      oldDataCustomer.Email,
+      newData.Email,
       this.#customerData.isFileImg,
       FileImg,
       FileCustomerID,
@@ -83,16 +92,20 @@ export default class UpdateCustomer {
 
   async #updateData() {
     const updateQuery = `UPDATE customer SET
+        BirthDMY = ?,
         Name1 = ?,
         Name2 = ?,
         Name3 = ?,
         Name1EN = ?,
         Name2EN = ?,
         NameMidEN = ?,
-        Name3EN = ?
-        WHERE CustomerID = ? AND BirthDMY = ? LIMIT 1`;
+        Name3EN = ?,
+        TelMobile = ?,
+        Email= ?
+        WHERE CustomerID = ? LIMIT 1`;
 
     await this.#transaction.query(updateQuery, [
+      this.#customerData.BirthDMY,
       this.#customerData.Name1,
       this.#customerData.Name2,
       this.#customerData.Name3,
@@ -100,8 +113,9 @@ export default class UpdateCustomer {
       this.#customerData.Name2EN,
       this.#customerData.NameMidEN,
       this.#customerData.Name3EN,
+      this.#customerData.TelMobile.replaceAll("-", ""),
+      this.#customerData.Email,
       this.#customerData.CustomerID,
-      this.#customerData.BirthDMY,
     ]);
   }
 
@@ -124,7 +138,7 @@ export default class UpdateCustomer {
   }
 
   async getCustomer(CustomerID, BirthDMY) {
-    const sqlCustomer = `SELECT CustomerID, BirthDMY, Name1, Name2, Name3, Name1EN, Name2EN, NameMidEN, Name3EN, FileImg FROM customer WHERE CustomerID = ? AND BirthDMY = ?`;
+    const sqlCustomer = `SELECT CustomerID, BirthDMY, Name1, Name2, Name3, Name1EN, Name2EN, NameMidEN, Name3EN, TelMobile, Email, FileImg FROM customer WHERE CustomerID = ? AND BirthDMY = ?`;
     const [customerData] = await pool.query(sqlCustomer, [CustomerID, BirthDMY]);
     return customerData;
   }

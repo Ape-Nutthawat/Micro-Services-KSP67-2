@@ -1,0 +1,28 @@
+{
+  "name": "backend-v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/app.js",
+  "type": "module",
+  "scripts": {
+    "local": "nodemon -r -L dotenv/config ./src/app.js dotenv_config_path=./.env.local",
+    "dev": "node -r dotenv/config ./src/app.js dotenv_config_path=./.env.dev",
+    "staging": "node -r dotenv/config ./src/app.js dotenv_config_path=./.env.staging",
+    "start": "node -r dotenv/config ./src/app.js dotenv_config_path=./.env.production",
+    "start:up": "docker build -t registry.thaijobjob.com/team-key/olr-ksp67_r2:14057_backend_approve . && docker push registry.thaijobjob.com/team-key/olr-ksp67_r2:14057_backend_approve"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mariadb": "^3.1.2",
+    "jsonwebtoken": "^9.0.0"
+    
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

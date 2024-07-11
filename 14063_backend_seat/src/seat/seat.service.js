@@ -8,7 +8,10 @@ export default class SeatService {
                                 UpdateSeat = NOW(),
                                 RoundID = ?,
                                 LocationID = ?
-                                WHERE CustomerID = ? LIMIT 1`;
+                        WHERE CustomerID = ? 
+                              AND RoundID IS NULL
+                              AND LocationID IS NULL 
+                              LIMIT 1`;
 
     const [result] = await pool.query(updateQuery, [RoundID, LocationID, CustomerID]);
     return result;

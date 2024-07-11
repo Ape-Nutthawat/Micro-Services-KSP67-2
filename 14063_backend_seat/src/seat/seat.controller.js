@@ -62,12 +62,12 @@ export const checkSeat = async (req, res, next) => {
     }
     await redis1.decr(keyRedis);
 
-    return res.status(400).send({
+    return res.status(200).send({
       status: 'failed',
-      code: 0,
+      code: 3,
       result: resultUpdateSeat,
       message: 'เกิดข้อผิดพลาด <br> Warning',
-      cause: 'อัปเดทข้อมูลไม่สำเร็จ <br> Update Failed',
+      cause: 'ท่านได้ทำการเลือกรอบและสถานที่สอบแล้ว <br>You have already chosen round and location.',
     });
   } catch (error) {
     await redis1.decr(keyRedis);

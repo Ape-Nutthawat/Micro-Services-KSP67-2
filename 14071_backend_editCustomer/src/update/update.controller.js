@@ -11,7 +11,9 @@ export const updateCustomer = async (req, res, next) => {
     !req.body.Name1EN ||
     !req.body.Name2EN ||
     (!req.body.NameMidEN && req.body.NameMidEN !== '') ||
-    !req.body.Name3EN
+    !req.body.Name3EN ||
+    !req.body.TelMobile ||
+    !req.body.Email
   ) {
     return res.status(400).send({
       status: 'failed',
