@@ -16,7 +16,7 @@ export default class RequestService {
       cause: '',
       causeEN: '',
     };
-    const sql = `SELECT * FROM vExaminee WHERE CustomerID = ? AND BirthDMY = ?`;
+    const sql = `SELECT * FROM vExaminee WHERE CustomerID = ? AND BirthDMY = ? AND Status = 1`;
     const [[examinee]] = await pool.query(sql, [customerID, BirthDMY]);
     // console.log(examinee);
     if (examinee) {
@@ -27,12 +27,14 @@ export default class RequestService {
         res.result = request_score;
 
         const statusApprove = request_score.StatusApprove;
+        // const statusApprove = 2;
         // const FileCustomerIDStatus = request_score.FileCustomerIDStatus;
         // const FileExamCardStatus = request_score.FileExamCardStatus;
         if (statusApprove === 1) {
           res.code = 0;
-          res.message = 'ผ่าน';
-          res.cause = 'ท่านสามารถยื่นขอรับบริการดูกระดาษคำตอบได้';
+          res.message = 'ได้รับสิทธิ';
+          res.cause = 'ท่านได้รับสิทธิในการดูไฟล์กระดาษคำตอบ';
+          res.causeEN = 'You are get the right';
         } else if (statusApprove === 2) {
           res.code = 0;
           res.message = 'รอตรวจสอบ';
@@ -40,17 +42,17 @@ export default class RequestService {
           res.causeEN = 'Waiting for validation';
         } else {
           res.code = 1;
-          res.message = 'ไม่ผ่าน';
-          res.cause = request_score.FileRequestScoreRemark ? 'สำเนาเอกสารหลักฐานการยื่นขอรับบริการดูกระดาษคำตอบ ไม่ผ่าน <br>'  + ` เนื่องจาก ${request_score.FileRequestScoreRemark}` : '';
+          res.message = 'ไม่ได้รับสิทธิ';
+          res.cause = request_score.FileRequestScoreRemark ? 'ท่านไม่ได้รับสิทธิในการดูไฟล์กระดาษคำตอบ <br>'  + ` เนื่องจาก ${request_score.FileRequestScoreRemark}` : '';
           // res.cause = 'เพราะ ไม่ดำเนินการตามข้อ 2.2 ของประกาศ เรื่อง การให้บริการดูกระดาษคำตอบฯ ประจำปี พ.ศ. 2566';
-          res.causeEN = 'Failed';
+          res.causeEN = 'You are not rights';
         }
         return res;
       }
       res.result = examinee;
-      res.message = 'ท่านสามารถยื่นขอรับบริการดูกระดาษคำตอบได้';
+      res.message = 'ท่านสามารถยื่นขอรับบริการดูไฟล์กระดาษคำตอบได้';
       res.cause = '-';
-      res.causeEN = '<b>You have the right to request to see the answer document.';
+      res.causeEN = '<b>You have the right to request to see the answer document file.';
       return res;
     }
     res.code = 0;
@@ -66,7 +68,7 @@ export default class RequestService {
     return request_score
   }
 
-  async addRequest(data, no, ip) {
+  async addRequest(data, no) {
     const sql = `INSERT INTO request_score SET 
                       AppID = ?, 
                       CustomerID = ?,
@@ -74,6 +76,7 @@ export default class RequestService {
                       Round = ?, 
                       LocationID = ?, 
                       Location = ?, 
+                      TestLang = ?, 
                       Name1 = ?, 
                       Name2 = ?,
                       Name3 = ?, 
@@ -90,7 +93,11 @@ export default class RequestService {
                       TelMobile = ?,
                       Email = ?, 
                       TypeRegis = ?,
+                      StatusExam = ?,
+                      Reason = ?,
                       no = ?, 
+                      FileRequestScore = ?,
+                      FileRequestScoreStatus = 2,
                       StatusApprove = 2, 
                       IP = ?`;
 
@@ -101,6 +108,7 @@ export default class RequestService {
       data.Round,
       data.LocationID,
       data.Location,
+      data.TestLang,
       data.Name1,
       data.Name2,
       data.Name3,
@@ -117,8 +125,11 @@ export default class RequestService {
       data.TelMobile,
       data.Email,
       data.TypeRegis,
+      data.StatusExam,
+      data.Reason,
       no,
-      ip,
+      data.FileRequestScore,
+      data.IP,
     ]);
 
     return result.insertId;

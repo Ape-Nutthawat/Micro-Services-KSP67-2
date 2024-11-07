@@ -1,5 +1,6 @@
 import S3Service from './s3.service.js';
 import ErrorLogRepository from '../error-log.repository.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export const uploadImg = async (req, res, next) => {
   if (!req.body.CustomerID || !req.files) {

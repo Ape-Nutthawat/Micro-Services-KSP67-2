@@ -19,7 +19,7 @@ export const login = async (req, res, next) => {
     const CustomerID = req.body.CustomerID;
     const BirthDMY = req.body.BirthDMY;
 
-      const result = await new  RequestScoreService().getExaminees(CustomerID, BirthDMY)
+      const result = await new RequestScoreService().getExaminees(CustomerID, BirthDMY)
       return res.status(200).send(result);
   } catch (error) {
     next(error);
@@ -49,7 +49,6 @@ export const requestScore = async (req, res, next) => {
       }
     }
     const result = await new RequestScoreService().addRequest(data, no, ip);
-    console.log("insert request success");
     res.status(200).send({
       status: 'success',
       code: 1,
@@ -58,6 +57,17 @@ export const requestScore = async (req, res, next) => {
       cause: '-',
     });
   } catch (error) {
+    if (error.errno === 1062) {
+      console.log("CustomerID duplicate");
+      res.status(400).send({
+        status: 'error',
+        code: 1062,
+        result: {},
+        message: 'ผู้สมัครโปรดทราบ <br> Attention',
+        cause: 'เลขประจำตัวประชาชนของท่านถูกใช้แล้ว <br> Your ID Card Number Has Already Been Used.',
+      });
+      return;
+    }
     next(error);
   }
 };
